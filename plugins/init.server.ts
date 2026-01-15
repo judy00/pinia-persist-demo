@@ -3,7 +3,7 @@ export default defineNuxtPlugin(async () => {
   const testStore = useTestStore()
 
   // 測試：使用 useCookie 設置另一個 cookie，檢查是否和 persist 衝突
-  const testCookie = useCookie('TEST_USECOOKIE', {
+  const testCookie = useCookie('TEST_COLOR', {
     path: '/',
     domain: runtimeConfig.public.cookieDomain,
     secure: true,
