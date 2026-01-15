@@ -13,15 +13,12 @@ export default defineNuxtConfig({
     }
   },
 
-  // 全域 cookie 設定（統一管理）
   piniaPluginPersistedstate: {
-    storage: 'cookies',
     cookieOptions: {
-      domain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN || undefined,
+      domain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN,
       path: '/',
-      secure: process.env.NUXT_PUBLIC_COOKIE_SECURE === 'true',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 30 // 30 天
+      secure: 'true',
+      maxAge: 60 * 60 * 24 * 30
     },
     debug: true
   },
