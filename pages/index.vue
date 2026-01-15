@@ -3,20 +3,30 @@ const config = useRuntimeConfig()
 const testStore = useTestStore()
 
 const cookieInfo = ref('')
+const useCookieInfo = ref('')
 const allCookies = ref('')
 
 function updateCookieInfo() {
   if (import.meta.client) {
     allCookies.value = document.cookie
-
-    // 解析 TEST_COLOR cookie
     const cookies = document.cookie.split(';')
+
+    // 解析 TEST_COLOR cookie (by pinia-plugin-persistedstate)
     const testColorCookie = cookies.find(c => c.trim().startsWith('TEST_COLOR='))
     if (testColorCookie) {
-      cookieInfo.value = testColorCookie.trim()
+      const rawValue = testColorCookie.trim().substring('TEST_COLOR='.length)
+      try {
+        cookieInfo.value = decodeURIComponent(rawValue)
+      } catch (e) {
+        cookieInfo.value = rawValue
+      }
     } else {
       cookieInfo.value = 'TEST_COLOR cookie not found'
     }
+
+    // 解析 TEST_USECOOKIE cookie (by useCookie)
+    const testUseCookie = cookies.find(c => c.trim().startsWith('TEST_USECOOKIE='))
+    useCookieInfo.value = testUseCookie ? testUseCookie.trim() : 'TEST_USECOOKIE cookie not found'
   }
 }
 
@@ -81,7 +91,16 @@ onMounted(() => {
 
     <section style="margin: 2rem 0; padding: 1rem; background: #fff3e0; border-radius: 8px;">
       <h2>Cookie Info</h2>
-      <p><strong>TEST_COLOR cookie:</strong> {{ cookieInfo }}</p>
+      <div style="display: grid; gap: 1rem;">
+        <div style="padding: 0.5rem; background: #ffe0b2; border-radius: 4px;">
+          <p style="margin: 0; font-size: 0.875rem; color: #e65100;">By pinia-plugin-persistedstate</p>
+          <p style="margin: 0.25rem 0 0;"><strong>TEST_COLOR:</strong> {{ cookieInfo }}</p>
+        </div>
+        <div style="padding: 0.5rem; background: #c8e6c9; border-radius: 4px;">
+          <p style="margin: 0; font-size: 0.875rem; color: #2e7d32;">By useCookie (server plugin)</p>
+          <p style="margin: 0.25rem 0 0;"><strong>TEST_USECOOKIE:</strong> {{ useCookieInfo }}</p>
+        </div>
+      </div>
       <details style="margin-top: 1rem;">
         <summary style="cursor: pointer;">All cookies (document.cookie)</summary>
         <pre style="margin-top: 0.5rem; padding: 0.5rem; background: #fff; overflow-x: auto;">{{ allCookies || '(no cookies)' }}</pre>
@@ -94,12 +113,17 @@ onMounted(() => {
         <li>Open DevTools (F12)</li>
         <li>Go to Application tab</li>
         <li>Click Cookies in the left sidebar</li>
-        <li>Find TEST_COLOR cookie</li>
-        <li>Check the Domain column</li>
+        <li>Compare domain of <code>TEST_COLOR</code> vs <code>TEST_USECOOKIE</code></li>
       </ol>
       <p style="margin-top: 1rem; color: #666;">
-        <strong>Expected:</strong> If domain has a leading dot (e.g., <code>.example.com</code>),
-        subdomains can access the cookie. Without the dot, the cookie is bound to the exact domain.
+        <strong>Compare:</strong>
+      </p>
+      <ul style="color: #666; margin-top: 0.5rem;">
+        <li><code>TEST_COLOR</code> - set by pinia-plugin-persistedstate</li>
+        <li><code>TEST_USECOOKIE</code> - set by useCookie in server plugin</li>
+      </ul>
+      <p style="margin-top: 0.5rem; color: #666;">
+        Check if both cookies have the same domain format (with or without leading dot).
       </p>
     </section>
   </div>
