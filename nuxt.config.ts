@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     }
   },
 
+  vite: {
+    envPrefix: "NUXT_PUBLIC_"
+  },
+
   piniaPluginPersistedstate: {
     cookieOptions: {
       domain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN,

@@ -1,10 +1,15 @@
 <script setup>
+import { genAuthKeyByEnv } from '@/utils/shared'
 const config = useRuntimeConfig()
 const testStore = useTestStore()
 
 const cookieInfo = ref('')
 const useCookieInfo = ref('')
 const allCookies = ref('')
+
+function getCookieKey() {
+  return genAuthKeyByEnv('TEST_COLOR')
+}
 
 function updateCookieInfo() {
   if (import.meta.client) {
@@ -85,6 +90,12 @@ onMounted(() => {
           @click="updateCookieInfo"
         >
           Refresh
+        </button>
+        <button
+          style="padding: 0.5rem 1rem; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer;"
+          @click="getCookieKey"
+        >
+          Get Cookie Key
         </button>
       </div>
     </section>
