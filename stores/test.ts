@@ -3,7 +3,19 @@ export const useTestStore = defineStore('test', {
     color: 'red' // 預設值
   }),
   persist: {
-    key: 'TEST_COLOR'
-    // storage 由 nuxt.config.ts 統一設定
+    key: 'TEST_COLOR',
+    serializer: {
+      serialize: (state) => {
+        return JSON.stringify({ user: { color: state.color } })
+      },
+      deserialize: (value) => {
+        try {
+          const parsed = JSON.parse(value)
+          return { color: parsed?.user?.color || 'orange' }
+        } catch {
+          return { color: 'orange' }
+        }
+      }
+    }
   }
 })

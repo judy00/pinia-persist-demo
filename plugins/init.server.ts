@@ -12,7 +12,7 @@ export default defineNuxtPlugin(async () => {
 
   // 設置 useCookie 的值
   if (!testCookie.value) {
-    testCookie.value = 'set-by-useCookie'
+    testCookie.value = { user: { color: '' } }
   }
 
   console.log('[init.server.ts] testStore.color:', testStore.color)
