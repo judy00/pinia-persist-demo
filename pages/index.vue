@@ -36,7 +36,8 @@ function updateCookieInfo() {
 }
 
 function setColor(color) {
-  testStore.color = color
+  console.log('setColor:', color)
+  testStore.setStoreColor(color)
   // 等待 cookie 寫入後更新顯示
   setTimeout(updateCookieInfo, 100)
 }
@@ -44,7 +45,7 @@ function setColor(color) {
 function clearCookie() {
   if (import.meta.client) {
     document.cookie = 'TEST_COLOR=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
-    testStore.color = ''
+    testStore.setStoreColor('')
     updateCookieInfo()
   }
 }

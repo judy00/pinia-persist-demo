@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      cookieDomain: '' // 由 NUXT_PUBLIC_COOKIE_DOMAIN 注入
+      cookieDomain: ''
     }
   },
 
@@ -17,15 +17,15 @@ export default defineNuxtConfig({
     envPrefix: "NUXT_PUBLIC_"
   },
 
-  piniaPluginPersistedstate: {
-    cookieOptions: {
-      domain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN,
-      path: '/',
-      secure: 'true',
-      maxAge: 60 * 60 * 24 * 30
-    },
-    debug: true
-  },
+  // piniaPluginPersistedstate: {
+  //   cookieOptions: {
+  //     domain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN,
+  //     path: '/',
+  //     maxAge: 60 * 60 * 24 * 2,
+  //     secure: true
+  //   },
+  //   debug: true
+  // },
 
   compatibilityDate: '2025-01-16'
 })
