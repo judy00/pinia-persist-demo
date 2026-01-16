@@ -81,6 +81,12 @@ onMounted(() => {
           Set Blue
         </button>
         <button
+          style="padding: 0.5rem 1rem; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer;"
+          @click="setColor('')"
+        >
+          Set empty
+        </button>
+        <button
           style="padding: 0.5rem 1rem; background: #9e9e9e; color: white; border: none; border-radius: 4px; cursor: pointer;"
           @click="clearCookie"
         >
